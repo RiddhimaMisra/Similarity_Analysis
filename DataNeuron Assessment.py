@@ -1,19 +1,10 @@
-import numpy as np
 import pandas as pd
 import nltk
 from nltk.corpus import stopwords
-from nltk.tokenize import word_tokenize
 import re
-import gensim
 import streamlit as st
 
-nltk.download('punkt')
-nltk.download('wordnet')
 nltk.download('stopwords')
-
-# Load pre-trained Google News Vectors
-wordmodelfile = "GoogleNews-vectors-negative300.bin"
-wordmodel = gensim.models.KeyedVectors.load_word2vec_format(wordmodelfile, binary=True,limit=100000)
 
 # Function to preprocess text
 def preprocess_text(text):
@@ -28,8 +19,8 @@ def preprocess_text(text):
     text = re.sub(r"\'ve", " have", text)
     text = re.sub(r"\'m", " am", text)
     text = re.sub('[^A-Za-z0-9]+', ' ', text)
-    text = ' '.join(e for e in text.split() if e.lower() not in stopwords_set)
-    return text.lower().strip()
+    text = ' '.join(e.lower() for e in text.split() if e.lower() not in stopwords_set)
+    return text.strip()
 
 # Jaccard similarity function
 def jaccard_similarity(str1, str2):
